@@ -1,0 +1,109 @@
+{
+ "baseline": {
+  "sha256": "b88c0b302143be710e201278d270a534a495c93b30068f23e188ebf19897bd64",
+  "matches_stored_file": true,
+  "deterministic_two_runs": true,
+  "rows": 518,
+  "unique_case_ids": 518,
+  "status_counts": {
+   "INCOMPLETE": 355,
+   "COMPLETE": 153,
+   "NOT_APPLICABLE": 10
+  },
+  "sample_status_accuracy": [
+   32,
+   32
+  ],
+  "sample_step_precision": [
+   190,
+   190
+  ],
+  "sample_step_recall": [
+   190,
+   193
+  ],
+  "sample_step_f1": 0.9922,
+  "sample_field_accuracy_by_position": [
+   1119,
+   1158
+  ],
+  "sample_sequence_accuracy": [
+   29,
+   32
+  ],
+  "validator_exit_code": 0,
+  "validator_errors": 0,
+  "steps": 3254,
+  "citations": 1246,
+  "custom_cases": [
+   4,
+   4
+  ],
+  "attribution_holdout": [
+   80,
+   80
+  ],
+  "history_crosscheck": [
+   117,
+   117
+  ]
+ },
+ "candidate": {
+  "sha256": "b88c0b302143be710e201278d270a534a495c93b30068f23e188ebf19897bd64",
+  "matches_stored_file": true,
+  "deterministic_two_runs": true,
+  "rows": 518,
+  "unique_case_ids": 518,
+  "status_counts": {
+   "INCOMPLETE": 355,
+   "COMPLETE": 153,
+   "NOT_APPLICABLE": 10
+  },
+  "sample_status_accuracy": [
+   32,
+   32
+  ],
+  "sample_step_precision": [
+   190,
+   190
+  ],
+  "sample_step_recall": [
+   190,
+   193
+  ],
+  "sample_step_f1": 0.9922,
+  "sample_field_accuracy_by_position": [
+   1119,
+   1158
+  ],
+  "sample_sequence_accuracy": [
+   29,
+   32
+  ],
+  "validator_exit_code": 0,
+  "validator_errors": 0,
+  "steps": 3254,
+  "citations": 1246,
+  "custom_cases": [
+   4,
+   4
+  ],
+  "attribution_holdout": [
+   80,
+   80
+  ],
+  "history_crosscheck": [
+   117,
+   117
+  ]
+ },
+ "diff": {
+  "cases_changed": 0,
+  "cases": 518
+ },
+ "official_score": {
+  "value": "28/30 as reported by the user",
+  "scored_file_sha256": "not confirmed: no score record or scored file in this workspace",
+  "local_confirmation_possible": false
+ }
+}

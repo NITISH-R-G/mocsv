@@ -1,0 +1,18 @@
+status_accuracy                        32/32 = 1.0000
+step_precision                         190/190 = 1.0000
+step_recall                            190/193 = 0.9845
+step_f1                                0.9922
+step_precision_ignoring_evidence       190/190 = 1.0000
+step_recall_ignoring_evidence          190/193 = 0.9845
+step_f1_ignoring_evidence              0.9922
+field_accuracy_by_position             1119/1158 = 0.9663
+sequence_accuracy                      29/32 = 0.9062
+
+== case_04 status pred=COMPLETE gold=COMPLETE tp=1/2 pred=1
+   MISSING ('VERIFICATION', 'account_service', 'account_004', 'VERIFY_RECORD_ABSENT', 'ABSENT', 'evidence_54')
+
+== case_18 status pred=INCOMPLETE gold=INCOMPLETE tp=13/14 pred=13
+   MISSING ('VERIFICATION', 'security_service', 'audit_record_6645', 'VERIFY_RECORD_PRESENT', 'PRESENT', '')
+
+== case_20 status pred=INCOMPLETE gold=INCOMPLETE tp=7/8 pred=7
+   MISSING ('VERIFICATION', 'security_service', 'audit_record_5569', 'VERIFY_RECORD_PRESENT', 'PRESENT', '')

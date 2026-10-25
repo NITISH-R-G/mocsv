@@ -1,0 +1,122 @@
+diff -ru -x __pycache__ code/evaluation/attribution_holdout.py experiment_30of30/code/evaluation/attribution_holdout.py
+--- code/evaluation/attribution_holdout.py	2026-10-25 10:23:39.912312892 +0000
++++ experiment_30of30/code/evaluation/attribution_holdout.py	2026-10-25 11:21:11.051753215 +0000
+@@ -20,6 +20,8 @@
+ import solver  # noqa: E402
+ 
+ DATASET = os.path.join(os.path.dirname(os.path.dirname(HERE)), "dataset")
++if not os.path.isdir(DATASET):  # experiment copy: use the repository dataset one level up
++    DATASET = os.path.join(os.path.dirname(os.path.dirname(DATASET)), "dataset")
+ 
+ 
+ def main():
+diff -ru -x __pycache__ code/evaluation/custom_cases.py experiment_30of30/code/evaluation/custom_cases.py
+--- code/evaluation/custom_cases.py	2026-10-25 10:22:40.272314256 +0000
++++ experiment_30of30/code/evaluation/custom_cases.py	2026-10-25 11:21:11.081826185 +0000
+@@ -21,6 +21,8 @@
+ import solver  # noqa: E402
+ 
+ DATASET = os.path.join(os.path.dirname(CODE), "dataset")
++if not os.path.isdir(DATASET):  # experiment copy: use the repository dataset one level up
++    DATASET = os.path.join(os.path.dirname(os.path.dirname(DATASET)), "dataset")
+ 
+ 
+ def step(n, phase, system, rid, op, ev=""):
+diff -ru -x __pycache__ code/evaluation/history_crosscheck.py experiment_30of30/code/evaluation/history_crosscheck.py
+--- code/evaluation/history_crosscheck.py	2026-10-25 10:23:47.872312710 +0000
++++ experiment_30of30/code/evaluation/history_crosscheck.py	2026-10-25 11:21:11.114118535 +0000
+@@ -20,6 +20,8 @@
+ import solver  # noqa: E402
+ 
+ DATASET = os.path.join(os.path.dirname(os.path.dirname(HERE)), "dataset")
++if not os.path.isdir(DATASET):  # experiment copy: use the repository dataset one level up
++    DATASET = os.path.join(os.path.dirname(os.path.dirname(DATASET)), "dataset")
+ FINDING_RESULTS = {"FOUND", "IDENTIFIABLE", "ACTIVE"}
+ 
+ 
+diff -ru -x __pycache__ code/evaluation/validate.py experiment_30of30/code/evaluation/validate.py
+--- code/evaluation/validate.py	2026-10-25 10:18:21.004320186 +0000
++++ experiment_30of30/code/evaluation/validate.py	2026-10-25 11:21:11.140020778 +0000
+@@ -14,6 +14,8 @@
+ 
+ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+ DATASET = os.path.join(ROOT, "dataset")
++if not os.path.isdir(DATASET):  # experiment copy: use the repository dataset one level up
++    DATASET = os.path.join(os.path.dirname(os.path.dirname(DATASET)), "dataset")
+ 
+ OPS = {
+     "FINDING": {"REPORT_REMAINING_RECORD": "PRESENT", "REPORT_EXPOSED_PII": "PRESENT",
+diff -ru -x __pycache__ code/evidence.py experiment_30of30/code/evidence.py
+--- code/evidence.py	2026-10-25 10:08:35.932059408 +0000
++++ experiment_30of30/code/evidence.py	2026-10-25 11:13:57.606316605 +0000
+@@ -282,7 +282,11 @@
+                 by_system[system].add(rid)
+                 self._add_record(eid, rec.get("updated_at") or cap, system, coll, rid, data,
+                                  src=f"{t}")
+-        # every system present in the capture is treated as fully captured
++        # every system present in the capture is treated as fully captured; the generic
++        # customer_data record tables also hold account profiles (replicas keep drifted
++        # account rows there), so a capture without account rows proves accounts are gone
++        if any(t.startswith("customer_data_") for t in tables):
++            systems_seen.add("account_service")
+         topo = re.search(r"Database topology: (\w+)", open(path, encoding="utf-8").read())
+         for system in systems_seen:
+             self.add_coverage(eid, cap, system, by_system[system],
+diff -ru -x __pycache__ code/main.py experiment_30of30/code/main.py
+--- code/main.py	2026-10-25 09:55:46.008351178 +0000
++++ experiment_30of30/code/main.py	2026-10-25 11:21:11.025008913 +0000
+@@ -19,6 +19,8 @@
+ 
+ ROOT = os.path.dirname(HERE)
+ DATASET = os.path.join(ROOT, "dataset")
++if not os.path.isdir(DATASET):  # experiment copy: use the repository dataset one level up
++    DATASET = os.path.join(os.path.dirname(os.path.dirname(DATASET)), "dataset")
+ 
+ 
+ def main():
+diff -ru -x __pycache__ code/solver.py experiment_30of30/code/solver.py
+--- code/solver.py	2026-10-25 10:20:34.776782549 +0000
++++ experiment_30of30/code/solver.py	2026-10-25 11:18:47.521696651 +0000
+@@ -246,7 +246,7 @@
+     # case (spread <= 2 s) for the primary-profile delete, the policy actions completed before
+     # the report and the final results received after it. The phase links keyless records
+     # (deleted accounts, anonymized analytics) to the run that processed them.
+-    PHASE_SHIFT = {"primary": 0.0, "after": 8.6, "ANONYMIZE_RECORD": 19.4, "RETAIN_RECORD": 19.5,
++    PHASE_SHIFT = {"primary": 0.0, "after": 8.6, "ANONYMIZE_RECORD": 19.4, "RETAIN_RECORD": 19.0,
+                    "REDACT_RECORD": 19.8, "DISABLE_DATA_FLOW": 20.3, "BLOCK_RESTORE": 20.9}
+     PHASE_TOL = 2.5
+ 
+@@ -500,24 +500,6 @@
+         return False
+ 
+     # ---------------------------------------------------------------- steps
+-    @staticmethod
+-    def _cite_case_file(verification, ledger):
+-        """An account proven absent only by omission from a table capture cites the case's
+-        own evidence file when every other verification step relies on that one file."""
+-        direct = {e for op, s, r, e in verification
+-                  if not (ledger["resources"][r]["state"] or {}).get("src", "").startswith("coverage")}
+-        if len(direct) != 1:
+-            return verification
+-        main = next(iter(direct))
+-        out = []
+-        for op, s, r, e in verification:
+-            st = ledger["resources"][r]["state"] or {}
+-            if st.get("src", "").startswith("coverage") and e != main:
+-                st["cited_instead_of"] = e
+-                e = main
+-            out.append((op, s, r, e))
+-        return out
+-
+     def build(self, c):
+         if not c["deletion"]:
+             return {"status": "NOT_APPLICABLE", "steps": [], "ledger": {"reason": "request does not authorize deletion"}}
+@@ -561,8 +543,6 @@
+                     remediation.append(("BLOCK_RESTORE", system, rid))
+                 verification.append(("VERIFY_RESTORE_BLOCKED", system, rid, eid))
+         status = "INCOMPLETE" if findings else "COMPLETE"
+-        if status == "COMPLETE":
+-            verification = self._cite_case_file(verification, ledger)
+ 
+         def order(phase):
+             return lambda x: (OP_ORDER[phase].index(x[0]), x[1], x[2])

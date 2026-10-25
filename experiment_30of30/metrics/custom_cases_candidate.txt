@@ -1,0 +1,5 @@
+custom_01_german_deletion                  status OK  (COMPLETE)  steps OK (3/3)
+custom_02_reaudit_after_recreation         status OK  (INCOMPLETE)  steps OK (8/8)
+custom_03_spanish_access_request           status OK  (NOT_APPLICABLE)  steps OK (0/0)
+custom_04_current_email_for_renamed_user   status OK  (INCOMPLETE)  steps OK (14/14)
+4/4 custom cases pass
