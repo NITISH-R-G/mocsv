@@ -1,0 +1,267 @@
+## [2026-10-25T09:38:16Z] SESSION START
+
+tool=Claude Code
+model=claude-opus-5-5
+Repo Root: /home/user/mocsv
+Branch: claude/vigilant-goodall-l823y8
+Worktree: main
+Parent Agent: none
+Language: py
+Time Remaining: not configured
+
+## [2026-10-25T10:26:46Z] Project Zero-Error: independent output CSV solver and candidate
+
+User Prompt (verbatim, secrets redacted):
+@"D:\Orchestrate - October\submission\output.csv" PROJECT ZERO-ERROR — INDEPENDENT OUTPUT CSV SOLVER
+You are Opus 5.5 acting as a principal investigator, evidence analyst, and adversarial evaluator for HackerRank Orchestrate October 2026: Ghost Data Still Exists.
+Mission
+Independently solve the entire Output CSV task to achieve the highest defensible official score possible, ideally 30/30.
+I will provide my current `output.csv`. Treat it as a baseline to challenge, not as the correct answer.
+Do not merely optimize my existing implementation. Reconstruct the correct output independently from the official specification, source dataset, evidence, and admissible reference material.
+The objective is maximum correctness under the actual task contract—not maximum row count, recall, apparent completeness, or agreement with my current output.
+A perfect score is the target, not an assumption. Never claim 30/30 unless the actual evaluator confirms it.
+1. Discover and load the complete task
+Before modifying anything, locate and inspect:
+
+* The official October problem statement and README.
+* All task instructions and repository-specific guidance.
+* The complete source dataset and every evidence file.
+* Input schemas, event logs, screenshots, OCR data, account inventories, identity mappings, timestamps, and policy records.
+* The official output schema and validation rules.
+* Sample inputs and reference outputs.
+* The evaluation harness and any locally available scoring tools.
+* My uploaded `output.csv`.
+* Existing code and reports, for diagnostic purposes only.
+
+Identify the exact input rows and required output rows. Verify whether the task requires 518 data rows, the exact header, and a particular ordering rule.
+Do not infer unseen evidence from prior reports. Inspect the actual source material.
+If a required file is missing or inaccessible, identify it explicitly. Do not pretend to have inspected it.
+2. Establish a baseline without trusting it
+Validate the uploaded CSV:
+
+* Header and encoding.
+* Row count and unique case IDs.
+* Required ordering.
+* Valid status values.
+* `steps_json` parsing and schema.
+* Step operation names and required fields.
+* Evidence references and timestamp admissibility.
+* Step ordering and dependencies.
+* Status-to-findings consistency.
+
+Generate a baseline report containing:
+
+* Every measurable sample metric and its numerator/denominator.
+* Every available evaluation metric.
+* All validation errors.
+* All deviations from the specification.
+* Every output row that appears questionable and why.
+
+Preserve the original file unchanged as the baseline.
+3. Build an independent evidence model
+For every case, reconstruct the expected deletion investigation from scratch.
+For each potentially relevant record, determine:
+
+1. Which person or account it belongs to.
+2. Whether identity attribution is supported by admissible evidence.
+3. Whether the record is within the applicable scope and time window.
+4. Whether the evidence was available by `audit_at`.
+5. Whether the record proves a violation, proves a current state, or is insufficient.
+6. Which deletion or verification action the policy requires.
+7. Which output step represents that action.
+8. Which evidence citation supports it.
+9. Where it belongs in the required sequence.
+10. Which final status is justified by the complete set of findings.
+
+Maintain an explicit per-case evidence ledger with:
+
+* Case ID.
+* Subject identifiers.
+* Candidate records.
+* Evidence references.
+* Attribution confidence and rationale.
+* Scope and timestamp decisions.
+* Supported steps.
+* Excluded candidates and reasons.
+* Final status rationale.
+* Remaining uncertainty.
+
+Use only evidence permitted by the official contract.
+Do not use hidden evaluation labels, hardcoded expected answers, or sample-specific hacks.
+4. Challenge every missing step
+The current reports identify 131 evaluation cases with ambiguous account ownership and 15 missing sample steps.
+Reinvestigate these cases independently.
+For each candidate step, classify the evidence as:
+
+* PROVEN: admissible evidence establishes the identity and required action.
+* AMBIGUOUS: multiple plausible identities or records remain.
+* UNSUPPORTED: available evidence does not establish the required relationship.
+* CONFLICTING: authoritative evidence disagrees.
+
+Do not automatically accept these previous classifications. Verify them against the actual source files.
+Search for legitimate attribution evidence, including authoritative identity mappings, historical identifiers, account relationships, primary records, and cross-system references. Apply temporal restrictions and evidence admissibility rules exactly as specified.
+Never attribute an account solely because it appears near a request in time when identity evidence is required.
+Never add a step merely to improve recall.
+For every omitted candidate, document whether the omission is required, justified, or a genuine defect.
+5. Challenge every existing step
+Perform the inverse audit too.
+For every step in my CSV, ask:
+
+* Does the subject actually own the record?
+* Is the source admissible and available before `audit_at`?
+* Is the action explicitly supported by the policy?
+* Is the operation correct for the record type?
+* Is the citation the strongest relevant evidence?
+* Is the step duplicated?
+* Is the step ordered correctly?
+* Does the step assert something stronger than the evidence proves?
+
+Remove or correct unsupported steps when the specification requires it.
+Prioritize precision and recall together. A fabricated step can be worse than an omitted step.
+6. Resolve status decisions from the specification
+Re-evaluate `COMPLETE`, `INCOMPLETE`, and `NOT_APPLICABLE` independently for every case.
+Pay particular attention to:
+
+* Cases with no attributable records.
+* Cases with ambiguous account ownership.
+* Cases with actual findings.
+* Cases where the evidence is incomplete or inaccessible.
+* Case_04 and case_63.
+* Cases affected by F1 detail-page absence proof.
+* D-SCOPE episode exclusions.
+* Evidence that postdates `audit_at`.
+* Empty `steps_json` arrays.
+
+Determine the actual semantic requirements of each status from the specification.
+Do not assume that:
+
+* No attributable records proves deletion is complete.
+* Every ambiguous case must be incomplete.
+* Every empty result must be complete.
+* Matching sample labels automatically establishes a universally correct rule.
+
+Derive one consistent rule from the task contract, then apply it to all cases.
+If two interpretations remain possible, compare their textual support and counterexamples. State the uncertainty instead of claiming certainty.
+7. Reconstruct and optimize step ordering
+Inspect the official ordering requirements and available reference behavior.
+Determine:
+
+* Required ordering between phases.
+* Dependencies between actions.
+* When verification must occur.
+* Whether ordering is stable across equal-priority steps.
+* The required output-row order.
+
+Build tests for boundary cases, duplicate steps, missing prerequisites, and contradictory actions.
+Never reorder steps simply because one order matches a sample if that order violates the task contract.
+8. Use samples as validation, not as the entire objective
+Run the independent solver against all available samples.
+Compare the candidate with reference outputs and inspect every mismatch.
+For each mismatch, identify whether the cause is:
+
+* Identity attribution.
+* Evidence selection.
+* Timestamp admissibility.
+* Scope interpretation.
+* Policy application.
+* Status selection.
+* Step construction.
+* Ordering.
+* Schema or serialization.
+
+Use sample feedback to discover general rules. Do not hardcode individual sample answers.
+A sample improvement is accepted only if the generalized rule is justified and does not introduce unsupported behavior elsewhere.
+9. Run bounded, evidence-driven experiments
+For each meaningful change:
+
+1. State the hypothesis.
+2. Identify the evidence supporting it.
+3. Predict which rows should change.
+4. Make the smallest reversible change.
+5. Run focused tests.
+6. Compare the complete output with the baseline.
+7. Inspect every changed row.
+8. Run the relevant full regression suite.
+9. Keep the change only if it is justified by the specification and evidence.
+
+Prioritize experiments by expected scoring benefit, confidence, cost, and regression risk.
+Do not make repeated cosmetic changes. Do not call external models unnecessarily. If a model call is unavailable, continue with evidence-based analysis and report the limitation.
+10. Produce the strongest candidate CSV
+Generate a new candidate output from the independently validated decision process.
+Requirements:
+
+* Exact required header.
+* Exactly one row per required case.
+* No missing or duplicate case IDs.
+* Required row ordering.
+* Valid status values.
+* Valid JSON and step schema.
+* Evidence-backed actions only.
+* Admissible citations.
+* Correct timestamps and action sequence.
+* Correct serialization and encoding.
+
+Keep the original uploaded CSV unchanged.
+Save the new candidate separately, for example:
+`submission/output_candidate.csv`
+Do not replace the release CSV until the candidate passes all relevant checks and I have approved the release.
+11. Evaluate honestly
+Calculate all available metrics with explicit numerators and denominators:
+
+* Sample status accuracy.
+* Step precision and recall.
+* Exact sequence.
+* Field-level correctness.
+* Evidence citation validity.
+* Schema compliance.
+* Any actual local evaluator score.
+
+Clearly distinguish:
+
+* Measured metrics.
+* Heuristic estimates.
+* Predictions.
+* Unknown official scoring behavior.
+
+If the actual official evaluator is available and authorized for use, run the candidate through it. Otherwise, do not fabricate an official score.
+If my previous 26.5/30 result is relevant, establish which exact file and evaluator produced it before using it as a baseline.
+12. Final deliverables
+Return:
+A. Best candidate
+The exact path to the candidate CSV, with its SHA-256 hash and file size.
+B. Baseline versus candidate
+A table of every metric with exact denominators.
+C. Complete output diff
+Every changed case ID, old status, new status, added or removed steps, and evidence supporting the change.
+D. Unresolved cases
+Every case where evidence is insufficient, with the reason and potential scoring impact.
+E. Validation report
+All tests, schema checks, citation checks, ordering checks, and evaluator results.
+F. Independent conclusion
+Explain why the candidate is more correct than the original, what remains uncertain, and whether any improvement is measured or only hypothesized.
+G. Release recommendation
+Recommend replacing the current output only if the candidate is demonstrably better and passes the required checks.
+Final instruction
+Think independently. Challenge my implementation, previous AI conclusions, and your own assumptions.
+Do not stop at the first plausible fix. Complete the evidence audit, investigate every legitimate missing-step opportunity, challenge unsupported existing steps, and apply every justified correction within the available time and compute budget.
+Your goal is the highest defensible official Output CSV score, ideally 30/30, through genuine correctness—not score manipulation, guessing, or overfitting."
+
+Agent Response Summary:
+The baseline output.csv (Windows path) was not present in the cloud container and code/main.py was empty, so an independent solver was built from scratch using only dataset/ files. It parses every evidence format (SQL replicas, JSON bundles and exports, six log formats, handover records, and transcribed screenshots and PDFs). It resolves current and historical identities, scopes each case to its request episode, and attributes keyless deleted accounts and anonymized analytics through a measured deletion-worker timing fingerprint. It applies deletion_rules.csv with latest-admissible-state citations. On the 32 samples it scores status 32/32, step precision 190/190 and recall 190/193; the 3 misses reference ids absent from all participant data. An attribution holdout scores 80/80, a history cross-check 117/117, custom cases 4/4, and the contract validator reports 0 errors. The candidate was written to submission/output_candidate.csv without replacing any release file; no official score was computed.
+
+Actions:
+* Read AGENTS.md, problem_statement.md, README.md, all dataset CSVs, every evidence file (PDFs via pdftotext, PNGs read visually)
+* Created code/logparse.py, code/evidence.py, code/evidence_transcriptions.json, code/intent.py, code/solver.py, code/main.py
+* Created code/evaluation/main.py, validate.py, custom_cases.py, attribution_holdout.py, history_crosscheck.py, compare.py, evaluation_report.md, usage_report.md
+* Generated submission/output_candidate.csv (sha256 b88c0b302143be710e201278d270a534a495c93b30068f23e188ebf19897bd64), submission/evidence_ledger.json, submission/sample_predictions.csv, submission/NOTES.md
+* Updated README.md with run instructions; added .gitignore
+* Ran python3 code/main.py, code/evaluation/main.py, validate.py, custom_cases.py, attribution_holdout.py, history_crosscheck.py
+
+Context:
+tool=Claude Code
+model=claude-opus-5-5
+branch=claude/vigilant-goodall-l823y8
+repo_root=/home/user/mocsv
+worktree=main
+parent_agent=none
+

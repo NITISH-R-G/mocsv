@@ -12,6 +12,36 @@ Read [`problem_statement.md`](./problem_statement.md) for the complete challenge
 
 ---
 
+## Solution — how to run
+
+Requirements: Python 3.9+ (standard library only, no API keys). Run every command from the repository root.
+
+```bash
+python3 code/main.py                                   # writes output.csv (518 rows) at the repo root
+python3 code/main.py --out submission/output_candidate.csv --ledger submission/evidence_ledger.json
+python3 code/main.py --sample --out sample_predictions.csv
+python3 code/evaluation/main.py --pred sample_predictions.csv --gold dataset/sample_output.csv --verbose
+python3 code/evaluation/validate.py output.csv          # contract checks (schema, order, citations)
+python3 code/evaluation/custom_cases.py                 # additional evaluation cases
+python3 code/evaluation/attribution_holdout.py          # holdout test of keyless attribution
+python3 code/evaluation/history_crosscheck.py           # independent state check
+python3 code/evaluation/compare.py --old baseline.csv --new output.csv   # diff two outputs
+```
+
+How the solver works (details in `code/evaluation/evaluation_report.md`):
+
+| Step | Module | What it does |
+|---|---|---|
+| Evidence extraction | `code/evidence.py`, `code/logparse.py` | Parses SQL snapshots (primary/replica tables), JSON bundles/exports/manifests, six log formats (trace-correlated lookups), handover records, and the facts read from screenshots/PDFs (`code/evidence_transcriptions.json`). The output is uniform observations: system, resource, state, linking identifiers, timestamp, evidence id. |
+| Intent | `code/intent.py` | A multilingual rule classifier. A request is treated as deletion unless it explicitly asks for access, export, correction, marketing opt-out or login help, or says not to delete. |
+| Identity | `code/solver.py` | Resolves current and historical emails, phones, email hashes and the user id from the audit log. Links resources by exact identifier match, never by name, plus data-catalog links. |
+| Episode scope | `code/solver.py` | A resource counts only with evidence or worker activity inside `[requested_at, audit_at]`, so other episodes and post-audit re-creations are excluded. |
+| Keyless attribution | `code/solver.py` | Deleted accounts and anonymized analytics with no identifiers are assigned from deletion-worker activity. The assignment uses the reported-status match, per-template time slots, the run's sub-minute timing fingerprint and co-membership in the same evidence file, solved jointly per window. |
+| State | `code/solver.py` | The latest observation from a file captured at or before `audit_at` wins. Omission from a complete account-table capture proves absence. Records seen only in late-captured files are used for discovery only, never cited. |
+| Policy and steps | `code/solver.py` | `deletion_rules.csv` actions produce findings, remediation and verification, ordered by phase, then operation table order, then `system_id`, then `resource_id`. |
+
+---
+
 ## Quick Start
 
 Clone the repository and move into the project directory:
