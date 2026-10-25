@@ -1,0 +1,4 @@
+batch audit 2026-02-18T09:00:00Z: cases=10 history_records=40 solver_records=40 missing=[] extra=[] finding_state_agreement=40/40
+batch audit 2026-05-04T10:00:00Z: cases=10 history_records=37 solver_records=37 missing=[] extra=[] finding_state_agreement=37/37
+batch audit 2026-06-23T06:00:00Z: cases=10 history_records=40 solver_records=40 missing=[] extra=[] finding_state_agreement=40/40
+overall finding-state agreement 117/117
